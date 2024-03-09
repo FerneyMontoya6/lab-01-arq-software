@@ -19,7 +19,7 @@ public class FlightController {
     private FlightService flightService;
 
     @GetMapping("/searchbydate")
-    public List<List<Flight>> searchFlights(
+    public List<List<Flight>> searchFlightsByDate(
             @RequestParam(name = "startDate") String startDate,
             @RequestParam(name = "endDate") String endDate) {
         LocalDate parsedStartDate = LocalDate.parse(startDate);
@@ -28,10 +28,18 @@ public class FlightController {
     }
 
     @GetMapping("/searchbyprice")
-    public List<List<Flight>> searchFlights(
+    public List<List<Flight>> searchFlightsByPrice(
             @RequestParam(name = "startPrice") int startPrice,
             @RequestParam(name = "endPrice") int endPrice) {
 
         return flightService.searchFlightsByPrice(startPrice, endPrice);
+    }
+
+    @GetMapping("/searchbyroute")
+    public List<List<Flight>> searchFlightsByRoute(
+            @RequestParam(name = "origin") String origin,
+            @RequestParam(name = "destination") String destination) {
+
+        return flightService.searchFlightsByRoute(origin, destination);
     }
 }

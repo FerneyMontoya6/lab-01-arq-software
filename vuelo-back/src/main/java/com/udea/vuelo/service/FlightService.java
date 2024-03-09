@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,5 +65,29 @@ public class FlightService {
     private boolean isPriceInRange(int priceToCheck, int startPrice, int endPrice) {
         // Verifica si el precio está en el rango correcto
         return priceToCheck >= startPrice && priceToCheck <= endPrice;
+    }
+
+    public List<List<Flight>> searchFlightsByRoute(String origin, String destination) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("flights.json");
+
+            if(inputStream != null) {
+                Flight[] flights = objectMapper.readValue(inputStream, Flight[].class);
+                return Arrays.asList(
+                        Arrays.stream(flights)
+                                .filter(flight -> isRouteInRoutes(flight.getOrigin(),flight.getDestination(),origin, destination))
+                                .collect(Collectors.toList()));
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error leyendo el archivo JSON ", e);
+        }
+    }
+
+    private boolean isRouteInRoutes(String origintocheck,String destinationtocheck, String origin, String destination) {
+        // Verifica si el precio está en el rango correcto
+        return Objects.equals(origintocheck, origin) && Objects.equals(destinationtocheck, destination);
     }
 }
