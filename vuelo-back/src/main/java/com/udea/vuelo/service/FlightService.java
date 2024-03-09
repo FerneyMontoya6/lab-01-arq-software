@@ -90,4 +90,28 @@ public class FlightService {
         // Verifica si el precio está en el rango correcto
         return Objects.equals(origintocheck, origin) && Objects.equals(destinationtocheck, destination);
     }
+
+    public List<List<Flight>> searchFlightsByAirline(String airline) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("flights.json");
+
+            if(inputStream != null) {
+                Flight[] flights = objectMapper.readValue(inputStream, Flight[].class);
+                return Arrays.asList(
+                        Arrays.stream(flights)
+                                .filter(flight -> isAirlineInFlights(flight.getAirline(),airline))
+                                .collect(Collectors.toList()));
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error leyendo el archivo JSON ", e);
+        }
+    }
+
+    private boolean isAirlineInFlights(String airlinetocheck, String airline ) {
+        // Verifica si el precio está en el rango correcto
+        return Objects.equals(airlinetocheck, airline);
+    }
 }

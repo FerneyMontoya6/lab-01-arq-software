@@ -42,4 +42,12 @@ public class FlightController {
 
         return flightService.searchFlightsByRoute(origin, destination);
     }
+
+    @GetMapping("/searchbyairline")
+    public List<List<Flight>> searchFlightsByAirline(
+
+            @RequestParam(name = "airline") String airline) {
+
+        return flightService.searchFlightsByAirline(airline);
+    }
 }
