@@ -24,6 +24,14 @@ public class FlightController {
             @RequestParam(name = "endDate") String endDate) {
         LocalDate parsedStartDate = LocalDate.parse(startDate);
         LocalDate parsedEndDate = LocalDate.parse(endDate);
-        return flightService.searchFlights(parsedStartDate, parsedEndDate);
+        return flightService.searchFlightsByDate(parsedStartDate, parsedEndDate);
+    }
+
+    @GetMapping("/searchbyprice")
+    public List<List<Flight>> searchFlights(
+            @RequestParam(name = "startPrice") int startPrice,
+            @RequestParam(name = "endPrice") int endPrice) {
+
+        return flightService.searchFlightsByPrice(startPrice, endPrice);
     }
 }

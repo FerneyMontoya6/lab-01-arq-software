@@ -18,7 +18,7 @@ public class FlightService {
     private final String filePath = "classpath:flights.json";
 
     //Método de la lógica de búsqueda de vuelos
-    public List<List<Flight>> searchFlights(LocalDate startDate, LocalDate endDate) {
+    public List<List<Flight>> searchFlightsByDate(LocalDate startDate, LocalDate endDate) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("flights.json");
@@ -40,5 +40,29 @@ public class FlightService {
     private boolean isDateInRange(LocalDate dateToCheck, LocalDate startDate, LocalDate endDate) {
         // Verifica si la fecha está en el rango correcto
         return !dateToCheck.isBefore(startDate) && !dateToCheck.isAfter(endDate);
+    }
+
+    public List<List<Flight>> searchFlightsByPrice(int startPrice, int endPrice) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("flights.json");
+
+            if(inputStream != null) {
+                Flight[] flights = objectMapper.readValue(inputStream, Flight[].class);
+                return Arrays.asList(
+                        Arrays.stream(flights)
+                                .filter(flight -> isPriceInRange(flight.getPrice(), startPrice, endPrice))
+                                .collect(Collectors.toList()));
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error leyendo el archivo JSON ", e);
+        }
+    }
+
+    private boolean isPriceInRange(int priceToCheck, int startPrice, int endPrice) {
+        // Verifica si el precio está en el rango correcto
+        return priceToCheck >= startPrice && priceToCheck <= endPrice;
     }
 }
