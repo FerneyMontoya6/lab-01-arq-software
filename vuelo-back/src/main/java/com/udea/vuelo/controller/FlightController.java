@@ -18,7 +18,7 @@ public class FlightController {
     @Autowired
     private FlightService flightService;
 
-    @GetMapping("/search")
+    @GetMapping("/searchbydate")
     public List<List<Flight>> searchFlights(
             @RequestParam(name = "startDate") String startDate,
             @RequestParam(name = "endDate") String endDate) {
