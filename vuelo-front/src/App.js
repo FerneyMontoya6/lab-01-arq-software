@@ -6,7 +6,7 @@ import { FlightRoute } from "./FlightRoute/FlightRoute.js";
 
 import "./App.css";
 
-function App() {
+const App = () => {
   const [form, setForm] = useState(null);
 
   const handleButtonClick = (index) => {
@@ -29,20 +29,21 @@ function App() {
   };
 
   return (
-    <>
+    <div className="flight-booking">
       <h1>Buscador de vuelos por:</h1>
-      <div className="btns-container">
-        <button onClick={() => handleButtonClick(0)}>Fecha</button>
-        <button onClick={() => handleButtonClick(1)}>Aerolínea</button>
-        <button onClick={() => handleButtonClick(2)}>Precio</button>
-        <button onClick={() => handleButtonClick(3)}>Ruta</button>
+      <div className="flight-options">
+      <button className="btn" onClick={() => handleButtonClick(0)}>Fecha</button>
+      <button className="btn" onClick={() => handleButtonClick(1)}>Aerolínea</button>
+      <button className="btn" onClick={() => handleButtonClick(2)}>Precio</button>
+      <button className="btn" onClick={() => handleButtonClick(3)}>Ruta</button>
       </div>
+
+
       <div className="form-selected">
         {renderForm()}
       </div>
-    </>
+    </div>
   );
-
 }
 
 export default App;

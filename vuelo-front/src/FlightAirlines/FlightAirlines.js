@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function Airlines() {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const [selectedAirline, setSelectedAirline] = useState("");
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,25 +44,27 @@ function Airlines() {
       {loading && <p>Cargando...</p>}
 
       <h2>Resultados de la búsqueda:</h2>
-      {flights.length > 0 ? (
-        <ul>
-          {flights.map((flight, index) => (
-            <li key={index}>
-              {Object.keys(flight).map((key) => (
-                <div key={key}>
-                  {`${key}: ${
-                    typeof flight[key] === "object"
-                      ? JSON.stringify(flight[key])
-                      : flight[key]
-                  }`}
+      <div className="flight-cards">
+        {flights.length > 0 ? (
+          flights.map((flightGroup, groupIndex) => (
+            <div key={groupIndex} className="flight-card-group">
+              {flightGroup.map((flight, index) => (
+                <div key={index} className="flight-card">
+                  <p><strong>ID:</strong> {flight.id}</p>
+                  <p><strong>Aerolínea:</strong> {flight.airline}</p>
+                  <p><strong>Origen:</strong> {flight.origin}</p>
+                  <p><strong>Destino:</strong> {flight.destination}</p>
+                  <p><strong>Precio:</strong> {flight.price}</p>
+                  <p><strong>Fecha de salida:</strong> {flight.departureDate}</p>
+                  <p><strong>Fecha de llegada:</strong> {flight.arrivalDate}</p>
                 </div>
               ))}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No se encontraron vuelos</p>
-      )}
+            </div>
+          ))
+        ) : (
+          <p>No se encontraron vuelos</p>
+        )}
+      </div>
     </>
   );
 }
