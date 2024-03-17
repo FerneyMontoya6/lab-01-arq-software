@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import axios from "axios";
 
-function FlightSearch() {
+function FlightDate() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [flights, setFlights] = useState([]);
@@ -70,4 +70,4 @@ function FlightSearch() {
   );
 }
 
-export { FlightSearch };
+export { FlightDate };
